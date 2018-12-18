@@ -1,0 +1,50 @@
+server:
+  port: 7777
+spring:
+  application:
+    name: customer
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1
+
+eureka:
+  instance:
+    prefer-ip-address: true #注册服务的时候使用服务的ip地址
+  client:
+    service-url:
+     defaultZone: http://localhost:9999/eureka/
+
+#feign的超时时间
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+  hystrix:
+    enabled: true
+
+redis:
+   database: 0
+   host: 127.0.0.1
+   port: 6379
+   timeout: 2000  #2秒
+#hystrix的超时时间
+hystrix:
+ command:
+  default:
+   execution:
+    isolation:
+      thread:
+        timeoutInMilliseconds: 6000 #6秒
+#指定负载策略
+#VM-A:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
